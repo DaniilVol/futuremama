@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:futuremama/model/name_model.dart';
-import 'package:futuremama/services/name_api.dart';
-import 'package:futuremama/services/name_hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:futuremama/services/name_provider.dart';
+import 'package:provider/provider.dart';
 
 class NameScreen extends StatefulWidget {
   @override
@@ -10,78 +8,41 @@ class NameScreen extends StatefulWidget {
 }
 
 class _NameScreenState extends State<NameScreen> {
-  late Box _box;
-  late List<String> _names;
+  bool _isLoading = true; // Добавлено состояние isLoading
 
   @override
   void initState() {
     super.initState();
-    _initHive();
-    _loadNames();
-  }
 
-  Future<void> _initHive() async {
-    await Hive.initFlutter();
-    await NameHive.initHive();
-    _box = NameHive.box;
-  }
-
-  Future<void> _loadNames() async {
-    try {
-      _names = await NameApi.fetchNames();
-      setState(() {});
-    } catch (e) {
-      print('Error loading names: $e');
-    }
+    // Добавляем Future.delayed для вызова fetchData после построения виджета
+    Future.delayed(Duration.zero, () {
+      Provider.of<NameProvider>(context, listen: false).fetchData().then((_) {
+        setState(() {
+          _isLoading = false; // Устанавливаем состояние загрузки в false
+        });
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final nameProvider = Provider.of<NameProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Имена'),
+        title: Text('Name List'),
       ),
-      body: FutureBuilder<void>(
-        // Используем FutureBuilder для ожидания завершения инициализации Hive
-        future: Hive.openBox('names'),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return _buildNameList();
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildNameList() {
-    return ListView.builder(
-      itemCount: _names.length,
-      itemBuilder: (context, index) {
-        final name = _names[index];
-        final isFavorite =
-            _box.containsKey(name) ? _box.get(name)!.isFavorite : false;
-
-        return ListTile(
-          title: Text(name),
-          trailing: IconButton(
-            icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: isFavorite ? Colors.red : null,
+      body: _isLoading
+          ? CircularProgressIndicator()
+          : ListView.builder(
+              itemCount: nameProvider.names.length,
+              itemBuilder: (context, index) {
+                final name = nameProvider.names[index];
+                return ListTile(
+                  title: Text(name.name),
+                );
+              },
             ),
-            onPressed: () {
-              if (_box.containsKey(name)) {
-                _box.delete(name);
-              } else {
-                NameHive.addName(NameModel(name));
-              }
-
-              setState(() {});
-            },
-          ),
-        );
-      },
     );
   }
 }

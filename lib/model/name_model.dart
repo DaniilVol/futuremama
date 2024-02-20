@@ -1,12 +1,26 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-@HiveType(typeId: 0)
-class NameModel extends HiveObject {
-  @HiveField(0)
-  String name;
+class NameModel {
+  final int id;
+  final String name;
 
-  @HiveField(1)
-  bool isFavorite;
+  NameModel({required this.id, required this.name});
+}
 
-  NameModel(this.name, {this.isFavorite = false});
+class NameModelAdapter extends TypeAdapter<NameModel> {
+  @override
+  final typeId = 0;
+
+  @override
+  NameModel read(BinaryReader reader) {
+    final id = reader.readInt();
+    final name = reader.readString();
+    return NameModel(id: id, name: name);
+  }
+
+  @override
+  void write(BinaryWriter writer, NameModel obj) {
+    writer.writeInt(obj.id);
+    writer.writeString(obj.name);
+  }
 }
