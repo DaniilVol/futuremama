@@ -1,6 +1,6 @@
-abstract class CounterState {}
+import 'package:futuremama/model/counter_model.dart';
 
-class InitialState extends CounterState {}
+abstract class CounterState {}
 
 class FightInProgressState extends CounterState {
   final Duration elapsedTime;
@@ -8,33 +8,18 @@ class FightInProgressState extends CounterState {
   FightInProgressState({required this.elapsedTime});
 }
 
-class FightEndedState extends CounterState {
+class FightState extends CounterState {
   final List<FightResult> results;
 
-  FightEndedState({required this.results});
+  FightState({required this.results});
 }
 
-class FightResult {
-  final DateTime currentTime;
-  final Duration duration;
-  final Duration timeSinceLastFight;
 
-  FightResult({
-    required this.currentTime,
-    required this.duration,
-    required this.timeSinceLastFight,
-  });
+  // КАК ЗАГРУЗИТЬ ДАННЫЕ ЧТОБЫ "results" НЕ БЫЛ ПУСТЫМ ПРИ ИНИЦИАЛИЗАЦИИ BLOC ??
 
-  @override
-  String toString() {
-    return '{currentTime: $currentTime, duration: $duration, timeSinceLastFight: $timeSinceLastFight}';
-  }
-}
-
-// class RemoveFightEvent {
-//   int index;
-
-//   RemoveFightEvent({
-//     required this.index,
-//   });
+//   factory FightState.fromHive() async {
+//     // Загружаем данные из Hive и возвращаем FightState
+//     List<FightResult> fightResults = await HiveManager.loadResults();
+//     return FightState(results: fightResults);
 // }
+

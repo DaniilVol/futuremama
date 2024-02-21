@@ -1,4 +1,4 @@
-import 'package:futuremama/bloc/counter/state.dart';
+import 'package:futuremama/model/counter_model.dart';
 
 abstract class CounterEvent {}
 

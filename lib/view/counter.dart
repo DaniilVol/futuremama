@@ -3,72 +3,83 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:futuremama/bloc/counter/bloc.dart';
 import 'package:futuremama/bloc/counter/event.dart';
 import 'package:futuremama/bloc/counter/state.dart';
+import 'package:futuremama/model/counter_model.dart';
 import 'package:intl/intl.dart';
 
 class CounterScreen extends StatelessWidget {
   const CounterScreen({Key? key}) : super(key: key);
-  // final CounterBloc _counterBloc = CounterBloc();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CounterBloc(), // _counterBloc,
-      child: BlocBuilder<CounterBloc, CounterState>(
-        builder: (context, state) {
-          if (state is InitialState) {
-            return _buildInitialScreen(context);
-          } else if (state is FightInProgressState) {
-            return _buildFightInProgressScreen(context, state.elapsedTime);
-          } else if (state is FightEndedState) {
-            return _buildFightEndedScreen(context, state.results);
-          } else {
-            return Container();
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildInitialScreen(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Счетчик схваток'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ElevatedButton(
-          onPressed: () {
-            context.read<CounterBloc>().add(StartFightEvent());
-            // _counterBloc.add(StartFightEvent());
-          },
-          child: Text('Схватка началась'),
+        appBar: AppBar(
+          title: const Text('Счетчик схваток'),
         ),
-      ),
-    );
+        body: BlocProvider(
+          create: (context) => CounterBloc(),
+          child: BlocBuilder<CounterBloc, CounterState>(
+            builder: (context, state) {
+              if (state is FightInProgressState) {
+                return _buildFightInProgressScreen(context, state.elapsedTime);
+              } else if (state is FightState) {
+                return _buildFightEndedScreen(context, state.results);
+              } else {
+                return const CircularProgressIndicator();
+              }
+            },
+          ),
+        ));
   }
 
   Widget _buildFightInProgressScreen(
       BuildContext context, Duration elapsedTime) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Счетчик схваток'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Expanded(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Прошло: ${elapsedTime.inMinutes}:${(elapsedTime.inSeconds % 60).toString().padLeft(2, '0')}',
-              style: TextStyle(fontSize: 20),
+            Expanded(
+              child: Center(
+                child: Text(
+                  'Прошло: ${elapsedTime.inMinutes}:${(elapsedTime.inSeconds % 60).toString().padLeft(2, '0')}',
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
             ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                context.read<CounterBloc>().add(EndFightEvent());
-                // _counterBloc.add(EndFightEvent());
-              },
-              child: Text('Закончились'),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: InkWell(
+                onTap: () {
+                  context.read<CounterBloc>().add(EndFightEvent());
+                },
+                customBorder: const CircleBorder(), // Делает кнопку круглой
+                child: Ink(
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 126, 25, 7), // Цвет кнопки
+                    shape: BoxShape.circle, // Устанавливает форму круглой
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black
+                            .withOpacity(0.3), // Цвет и прозрачность тени
+                        spreadRadius: 2, // Распространение тени
+                        blurRadius: 5, // Размытие тени
+                        offset:
+                            const Offset(0, 3), // Смещение тени по осям X и Y
+                      ),
+                    ],
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(100.0),
+                    child: Text(
+                      'Закончилась',
+                      style: TextStyle(
+                        color: Colors.white, // Цвет текста
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -78,25 +89,48 @@ class CounterScreen extends StatelessWidget {
 
   Widget _buildFightEndedScreen(
       BuildContext context, List<FightResult> results) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Счетчик схваток'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Expanded(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                context.read<CounterBloc>().add(StartFightEvent());
-                // _counterBloc.add(StartFightEvent());
-              },
-              child: Text('Начать новую схватку'),
-            ),
-            SizedBox(height: 16),
             Expanded(
               child: _buildResultsList(context, results),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: InkWell(
+                onTap: () {
+                  context.read<CounterBloc>().add(StartFightEvent());
+                },
+                customBorder: const CircleBorder(), // Делает кнопку круглой
+                child: Ink(
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 10, 88, 10), // Цвет кнопки
+                    shape: BoxShape.circle, // Устанавливает форму круглой
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black
+                            .withOpacity(0.3), // Цвет и прозрачность тени
+                        spreadRadius: 2, // Распространение тени
+                        blurRadius: 5, // Размытие тени
+                        offset:
+                            const Offset(0, 3), // Смещение тени по осям X и Y
+                      ),
+                    ],
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(100.0),
+                    child: Text(
+                      'Схватка началась',
+                      style: TextStyle(
+                        color: Colors.white, // Цвет текста
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -106,7 +140,7 @@ class CounterScreen extends StatelessWidget {
 
   Widget _buildResultsList(BuildContext context, List<FightResult> results) {
     return results.isEmpty
-        ? Center(child: Text('Нет результатов'))
+        ? const Center(child: Text('Нет результатов'))
         : ListView.builder(
             itemCount: results.length,
             itemBuilder: (context, index) {
@@ -116,144 +150,84 @@ class CounterScreen extends StatelessWidget {
                   .format(result.currentTime.toLocal());
 
               return Dismissible(
-                  key: Key(result.toString()),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {
-                    context
-                        .read<CounterBloc>()
-                        .add(RemoveFightEvent(result: result));
-                    // setState(() {
-                    //   items.removeAt(index);
-                    // );
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Схватка удалена - $formattedDate')));
-                  },
-                  background: Container(
-                    color: Colors.red,
-                    child: const Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 20.0),
-                        child: Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                        ),
+                key: Key(result.toString()),
+                direction: DismissDirection.endToStart,
+                onDismissed: (direction) {
+                  context
+                      .read<CounterBloc>()
+                      .add(RemoveFightEvent(result: result));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Схватка удалена - $formattedDate')));
+                },
+                background: Container(
+                  color: Colors.red,
+                  child: const Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 20.0),
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  child: ListTile(
-                    title: Text(
-                        'Дата: $formattedDate'), // ${result.currentTime.toLocal()}'),
-                    subtitle: Text(
-                        'Продолжительность: ${result.duration.inMinutes}:${(result.duration.inSeconds % 60).toString().padLeft(2, '0')} \n'
-                        'Время с предыдущей схватки: ${result.timeSinceLastFight.inMinutes}:${(result.timeSinceLastFight.inSeconds % 60).toString().padLeft(2, '0')}'),
-                  ));
+                ),
+                child: ListTile(
+                  title: Text(
+                    'Дата: $formattedDate',
+                  ),
+                  subtitle: Text(
+                      'Продолжительность: ${result.duration.inMinutes}:${(result.duration.inSeconds % 60).toString().padLeft(2, '0')} \n'
+                      'Время с предыдущей схватки: ${result.timeSinceLastFight.inMinutes}:${(result.timeSinceLastFight.inSeconds % 60).toString().padLeft(2, '0')}'),
+                ),
+              );
             },
           );
   }
 }
 
-// class CounterScreen extends StatefulWidget {
-//   @override
-//   _CounterScreenState createState() => _CounterScreenState();
-// }
-
-// class _CounterScreenState extends State<CounterScreen> {
-//   late Box _box;
-//   bool fightInProgress = false;
-//   DateTime? startTime;
-//   late Timer _timer;
-//   Duration elapsedTime = Duration(seconds: 0);
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _timer = Timer(Duration(seconds: 0), () {});
-//     _initHive();
-//   }
-
-//   Future<void> _initHive() async {
-//     await Hive.initFlutter();
-//     // await CounterHive.initHive();
-//     _box = CounterHive.box;
-//   }
-
-//   void _startFight() {
-//     setState(() {
-//       fightInProgress = true;
-//       startTime = DateTime.now();
-//       _timer = Timer.periodic(Duration(seconds: 1), _updateTimer);
-//     });
-//   }
-
-//   void _endFight() {
-//     if (fightInProgress) {
-//       _timer.cancel();
-//       final currentTime = DateTime.now();
-//       final duration = currentTime.difference(startTime!);
-//       final timeSinceLastFight = CounterHive.getAllFightResults().isEmpty
-//           ? Duration(seconds: 0)
-//           : currentTime
-//               .difference(CounterHive.getAllFightResults().last.currentTime)
-//               .abs();
-
-//       final result = CounterModel(
-//         currentTime: currentTime,
-//         duration: duration,
-//         timeSinceLastFight: timeSinceLastFight,
-//       );
-
-//       CounterHive.addFightResult(result);
-
-//       setState(() {
-//         fightInProgress = false;
-//         elapsedTime = Duration(seconds: 0);
-//       });
-//     }
-//   }
-
-//   void _updateTimer(Timer timer) {
-//     setState(() {
-//       elapsedTime = DateTime.now().difference(startTime!);
-//     });
-//   }
-
-//   @override
-//   void dispose() {
-//     _timer.cancel();
-//     super.dispose();
-//   }
+// class CounterScreen extends StatelessWidget {
+//   const CounterScreen({Key? key}) : super(key: key);
 
 //   @override
 //   Widget build(BuildContext context) {
+//     return BlocProvider(
+//       create: (context) => CounterBloc(),
+//       child: BlocBuilder<CounterBloc, CounterState>(
+//         builder: (context, state) {
+//           if (state is FightInProgressState) {
+//             return _buildFightInProgressScreen(context, state.elapsedTime);
+//           } else if (state is FightState) {
+//             return _buildFightEndedScreen(context, state.results);
+//           } else {
+//             return const CircularProgressIndicator();
+//           }
+//         },
+//       ),
+//     );
+//   }
+
+//   Widget _buildFightInProgressScreen(
+//       BuildContext context, Duration elapsedTime) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         title: Text('Счетчик схваток'),
+//         title: const Text('Счетчик схваток'),
 //       ),
 //       body: Padding(
 //         padding: const EdgeInsets.all(16.0),
 //         child: Column(
 //           mainAxisAlignment: MainAxisAlignment.center,
 //           children: [
-//             if (fightInProgress)
-//               Text(
-//                 'Прошло: ${elapsedTime.inMinutes}:${(elapsedTime.inSeconds % 60).toString().padLeft(2, '0')}',
-//                 style: TextStyle(fontSize: 20),
-//               )
-//             else
-//               ElevatedButton(
-//                 onPressed: _startFight,
-//                 child: Text('Схватка началась'),
-//               ),
-//             SizedBox(height: 16),
-//             if (fightInProgress)
-//               ElevatedButton(
-//                 onPressed: _endFight,
-//                 child: Text('Закончились'),
-//               ),
-//             SizedBox(height: 32),
-//             Expanded(
-//               child: _buildResultsList(),
+//             Text(
+//               'Прошло: ${elapsedTime.inMinutes}:${(elapsedTime.inSeconds % 60).toString().padLeft(2, '0')}',
+//               style: const TextStyle(fontSize: 20),
+//             ),
+//             const SizedBox(height: 16),
+//             ElevatedButton(
+//               onPressed: () {
+//                 context.read<CounterBloc>().add(EndFightEvent());
+//               },
+//               child: const Text('Закончились'),
 //             ),
 //           ],
 //         ),
@@ -261,21 +235,75 @@ class CounterScreen extends StatelessWidget {
 //     );
 //   }
 
-//   Widget _buildResultsList() {
-//     final results = CounterHive.getAllFightResults();
+//   Widget _buildFightEndedScreen(
+//       BuildContext context, List<FightResult> results) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Счетчик схваток'),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             ElevatedButton(
+//               onPressed: () {
+//                 context.read<CounterBloc>().add(StartFightEvent());
+//               },
+//               child: const Text('Схватка началась'),
+//             ),
+//             const SizedBox(height: 16),
+//             Expanded(
+//               child: _buildResultsList(context, results),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
 
+//   Widget _buildResultsList(BuildContext context, List<FightResult> results) {
 //     return results.isEmpty
-//         ? Center(child: Text('Нет результатов'))
+//         ? const Center(child: Text('Нет результатов'))
 //         : ListView.builder(
 //             itemCount: results.length,
 //             itemBuilder: (context, index) {
 //               final result = results[index];
 
-//               return ListTile(
-//                 title: Text('Дата: ${result.currentTime.toLocal()}'),
-//                 subtitle: Text(
-//                     'Продолжительность: ${result.duration.inMinutes}:${(result.duration.inSeconds % 60).toString().padLeft(2, '0')} | '
-//                     'Время с предыдущей схватки: ${result.timeSinceLastFight.inMinutes}:${(result.timeSinceLastFight.inSeconds % 60).toString().padLeft(2, '0')}'),
+//               final formattedDate = DateFormat('dd.MM.yy HH:mm:ss')
+//                   .format(result.currentTime.toLocal());
+
+//               return Dismissible(
+//                 key: Key(result.toString()),
+//                 direction: DismissDirection.endToStart,
+//                 onDismissed: (direction) {
+//                   context
+//                       .read<CounterBloc>()
+//                       .add(RemoveFightEvent(result: result));
+//                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//                       content: Text('Схватка удалена - $formattedDate')));
+//                 },
+//                 background: Container(
+//                   color: Colors.red,
+//                   child: const Align(
+//                     alignment: Alignment.centerRight,
+//                     child: Padding(
+//                       padding: EdgeInsets.only(right: 20.0),
+//                       child: Icon(
+//                         Icons.delete,
+//                         color: Colors.white,
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//                 child: ListTile(
+//                   title: Text(
+//                     'Дата: $formattedDate',
+//                   ),
+//                   subtitle: Text(
+//                       'Продолжительность: ${result.duration.inMinutes}:${(result.duration.inSeconds % 60).toString().padLeft(2, '0')} \n'
+//                       'Время с предыдущей схватки: ${result.timeSinceLastFight.inMinutes}:${(result.timeSinceLastFight.inSeconds % 60).toString().padLeft(2, '0')}'),
+//                 ),
 //               );
 //             },
 //           );

@@ -6,7 +6,7 @@ import 'package:futuremama/services/name_hive.dart';
 class NameProvider extends ChangeNotifier {
   List<NameModel> names = [];
 
-  Future<void> fetchData() async {
+  Future<void> getData() async {
     names = NameHive.loadData();
     if (names.isEmpty) {
       names = await NameApi().getData();

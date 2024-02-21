@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:futuremama/model/counter_model.dart';
 import 'package:futuremama/model/name_model.dart';
-import 'package:futuremama/services/counter_hive.dart';
 import 'package:futuremama/services/name_hive.dart';
 import 'package:futuremama/services/name_provider.dart';
 import 'package:futuremama/view/counter.dart';
@@ -13,13 +13,17 @@ import 'package:provider/provider.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<NameModel>(NameModelAdapter());
+  Hive.registerAdapter<FightResult>(FightResultAdapter());
   await Hive.openBox<NameModel>(NameHive.boxName);
-  await CounterHive.initHive();
 
-  runApp(FuturemamaApp());
+  //await Hive.openBox<FightResult>('fight_results');
+
+  runApp(const FuturemamaApp());
 }
 
 class FuturemamaApp extends StatelessWidget {
+  const FuturemamaApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -28,19 +32,19 @@ class FuturemamaApp extends StatelessWidget {
         title: 'Futuremama App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+          // visualDensity: VisualDensity.adaptivePlatformDensity,
           bottomNavigationBarTheme: const BottomNavigationBarThemeData(
             backgroundColor: Colors.blue,
             selectedItemColor: Color.fromARGB(255, 52, 74, 107),
             unselectedItemColor: Color.fromARGB(255, 140, 152, 167),
           ),
         ),
-        home: BottomNavigation(),
+        home: const BottomNavigation(),
         routes: {
-          '/health': (context) => HealthScreen(),
-          '/notes': (context) => NotesScreen(),
-          '/name': (context) => NameScreen(),
-          '/counter': (context) => CounterScreen(),
+          '/health': (context) => const HealthScreen(),
+          '/notes': (context) => const NotesScreen(),
+          '/name': (context) => const NameScreen(),
+          '/counter': (context) => const CounterScreen(),
         },
       ),
     );
@@ -48,25 +52,27 @@ class FuturemamaApp extends StatelessWidget {
 }
 
 class BottomNavigation extends StatefulWidget {
+  const BottomNavigation({super.key});
+
   @override
-  _BottomNavigationState createState() => _BottomNavigationState();
+  BottomNavigationState createState() => BottomNavigationState();
 }
 
-class _BottomNavigationState extends State<BottomNavigation> {
+class BottomNavigationState extends State<BottomNavigation> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    HealthScreen(),
-    NotesScreen(),
-    NameScreen(),
-    CounterScreen(),
+    const HealthScreen(),
+    const NotesScreen(),
+    const NameScreen(),
+    const CounterScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Future mama'),
+        title: const Text('Future mama'),
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -76,7 +82,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             _currentIndex = index;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Здоровье',

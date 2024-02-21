@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HealthScreen extends StatelessWidget {
+  const HealthScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,16 +14,13 @@ class HealthScreen extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.blue, // Цвет первой кнопки
-                  borderRadius:
-                      BorderRadius.circular(10.0), // Закругленные края
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: () {
-                      // Действие при нажатии на первую кнопку
-                    },
-                    child: Text(
+                    onPressed: () async {},
+                    child: const Text(
                       'Анализы',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -29,20 +28,17 @@ class HealthScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16), // Отступ между кнопками
+            const SizedBox(height: 16),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.green, // Цвет второй кнопки
-                  borderRadius:
-                      BorderRadius.circular(10.0), // Закругленные края
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: () {
-                      // Действие при нажатии на вторую кнопку
-                    },
-                    child: Text(
+                    onPressed: () {},
+                    child: const Text(
                       'Вес',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -50,20 +46,17 @@ class HealthScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16), // Отступ между кнопками
+            const SizedBox(height: 16),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.orange, // Цвет третьей кнопки
-                  borderRadius:
-                      BorderRadius.circular(10.0), // Закругленные края
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: () {
-                      // Действие при нажатии на третью кнопку
-                    },
-                    child: Text(
+                    onPressed: () {},
+                    child: const Text(
                       'Давление',
                       style: TextStyle(color: Colors.white),
                     ),

@@ -3,20 +3,22 @@ import 'package:futuremama/services/name_provider.dart';
 import 'package:provider/provider.dart';
 
 class NameScreen extends StatefulWidget {
+  const NameScreen({super.key});
+
   @override
-  _NameScreenState createState() => _NameScreenState();
+  NameScreenState createState() => NameScreenState();
 }
 
-class _NameScreenState extends State<NameScreen> {
-  bool _isLoading = true; // Добавлено состояние isLoading
+class NameScreenState extends State<NameScreen> {
+  bool _isLoading = true; // Добавляем состояние isLoading
 
   @override
   void initState() {
     super.initState();
 
-    // Добавляем Future.delayed для вызова fetchData после построения виджета
+    // Добавляем Future.delayed для вызова getData после построения виджета
     Future.delayed(Duration.zero, () {
-      Provider.of<NameProvider>(context, listen: false).fetchData().then((_) {
+      Provider.of<NameProvider>(context, listen: false).getData().then((_) {
         setState(() {
           _isLoading = false; // Устанавливаем состояние загрузки в false
         });
@@ -30,10 +32,10 @@ class _NameScreenState extends State<NameScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Name List'),
+        title: const Text('Name List'),
       ),
       body: _isLoading
-          ? CircularProgressIndicator()
+          ? const CircularProgressIndicator()
           : ListView.builder(
               itemCount: nameProvider.names.length,
               itemBuilder: (context, index) {
