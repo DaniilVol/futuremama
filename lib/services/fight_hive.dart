@@ -1,31 +1,31 @@
-import 'package:futuremama/model/counter_model.dart';
+import 'package:futuremama/model/fight_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class HiveManager {
-  static Future<void> saveResults(List<FightResult> results) async {
-    final box = await Hive.openBox<FightResult>('fight_results');
+class FightHive {
+  static Future<void> saveResults(List<FightModel> results) async {
+    final box = await Hive.openBox<FightModel>('fight_results');
     await box.clear();
     await box.addAll(results);
     await box.close();
   }
 
-  static Future<List<FightResult>> loadResults() async {
-    final box = await Hive.openBox<FightResult>('fight_results');
-    final List<FightResult> savedResults = box.values.toList();
+  static Future<List<FightModel>> loadResults() async {
+    final box = await Hive.openBox<FightModel>('fight_results');
+    final List<FightModel> savedResults = box.values.toList();
     await box.close();
     return savedResults.reversed.toList();
   }
 
-  static Future<void> addResults(FightResult results) async {
-    final box = await Hive.openBox<FightResult>('fight_results');
-    await box.add(results);
+  static Future<void> addResults(FightModel fight) async {
+    final box = await Hive.openBox<FightModel>('fight_results');
+    await box.add(fight);
     await box.close();
   }
 
-  static Future<void> removeResult(FightResult result) async {
-    final box = await Hive.openBox<FightResult>('fight_results');
-    final List<FightResult> savedResults = box.values.toList();
-    savedResults.remove(result);
+  static Future<void> removeResult(FightModel fight) async {
+    final box = await Hive.openBox<FightModel>('fight_results');
+    final List<FightModel> savedResults = box.values.toList();
+    savedResults.remove(fight);
     await box.clear();
     await box.addAll(savedResults);
     await box.close();
@@ -42,7 +42,7 @@ class HiveManager {
   // }
 
   static Future<void> removeAllResults() async {
-    final box = await Hive.openBox<FightResult>('fight_results');
+    final box = await Hive.openBox<FightModel>('fight_results');
     await box.clear();
     await box.close();
   }

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:futuremama/services/name_provider.dart';
 import 'package:provider/provider.dart';
 
-class NameScreen extends StatefulWidget {
-  const NameScreen({super.key});
+class NameView extends StatefulWidget {
+  const NameView({super.key});
 
   @override
-  NameScreenState createState() => NameScreenState();
+  NameViewState createState() => NameViewState();
 }
 
-class NameScreenState extends State<NameScreen> {
+class NameViewState extends State<NameView> {
   bool _isLoading = true; // Добавляем состояние isLoading
 
   @override

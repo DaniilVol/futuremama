@@ -1,17 +1,17 @@
-import 'package:futuremama/model/counter_model.dart';
+import 'package:futuremama/model/fight_model.dart';
 
-abstract class CounterState {}
+abstract class FightState {}
 
-class FightInProgressState extends CounterState {
+class FightInProgressState extends FightState {
   final Duration elapsedTime;
 
   FightInProgressState({required this.elapsedTime});
 }
 
-class FightState extends CounterState {
-  final List<FightResult> results;
+class FightResultsState extends FightState {
+  final List<FightModel> results;
 
-  FightState({required this.results});
+  FightResultsState({required this.results});
 }
 
 

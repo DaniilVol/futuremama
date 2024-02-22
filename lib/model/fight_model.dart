@@ -1,22 +1,22 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-class FightResult {
+class FightModel {
   final DateTime currentTime;
   final Duration duration;
   final Duration timeSinceLastFight;
 
-  FightResult({
+  FightModel({
     required this.currentTime,
     required this.duration,
     required this.timeSinceLastFight,
   });
 
-  FightResult copyWith({
+  FightModel copyWith({
     DateTime? currentTime,
     Duration? duration,
     Duration? timeSinceLastFight,
   }) {
-    return FightResult(
+    return FightModel(
       currentTime: currentTime ?? this.currentTime,
       duration: duration ?? this.duration,
       timeSinceLastFight: timeSinceLastFight ?? this.timeSinceLastFight,
@@ -28,7 +28,7 @@ class FightResult {
       'FightResult(currentTime: $currentTime, duration: $duration, timeSinceLastFight: $timeSinceLastFight)';
 
   @override
-  bool operator ==(covariant FightResult other) {
+  bool operator ==(covariant FightModel other) {
     if (identical(this, other)) return true;
 
     return other.currentTime == currentTime &&
@@ -41,12 +41,12 @@ class FightResult {
       currentTime.hashCode ^ duration.hashCode ^ timeSinceLastFight.hashCode;
 }
 
-class FightResultAdapter extends TypeAdapter<FightResult> {
+class FightModelAdapter extends TypeAdapter<FightModel> {
   @override
   final int typeId = 1;
 
   @override
-  FightResult read(BinaryReader reader) {
+  FightModel read(BinaryReader reader) {
     final currentTimeMillis = reader
         .readInt(); // Используем readInt для записи времени в миллисекундах
     final durationMillis = reader.readInt();
@@ -56,7 +56,7 @@ class FightResultAdapter extends TypeAdapter<FightResult> {
     final duration = Duration(milliseconds: durationMillis);
     final timeSinceLastFight = Duration(milliseconds: timeSinceLastFightMillis);
 
-    return FightResult(
+    return FightModel(
       currentTime: currentTime,
       duration: duration,
       timeSinceLastFight: timeSinceLastFight,
@@ -64,7 +64,7 @@ class FightResultAdapter extends TypeAdapter<FightResult> {
   }
 
   @override
-  void write(BinaryWriter writer, FightResult obj) {
+  void write(BinaryWriter writer, FightModel obj) {
     writer.writeInt(obj.currentTime.millisecondsSinceEpoch);
     writer.writeInt(obj.duration.inMilliseconds);
     writer.writeInt(obj.timeSinceLastFight.inMilliseconds);

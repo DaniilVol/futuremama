@@ -1,15 +1,17 @@
-import 'package:futuremama/model/counter_model.dart';
+import 'package:futuremama/model/fight_model.dart';
 
-abstract class CounterEvent {}
+abstract class FightEvent {}
 
-class StartFightEvent extends CounterEvent {}
+class StartFightEvent extends FightEvent {}
 
-class EndFightEvent extends CounterEvent {}
+class EndFightEvent extends FightEvent {}
 
-class UpdateTimerEvent extends CounterEvent {}
+class UpdateTimerEvent extends FightEvent {}
 
-class RemoveFightEvent extends CounterEvent {
-  final FightResult result;
+class RemoveAllFightEvent extends FightEvent {}
+
+class RemoveFightEvent extends FightEvent {
+  final FightModel result;
 
   RemoveFightEvent({required this.result});
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:futuremama/services/weight_hive.dart';
 
-class HealthScreen extends StatelessWidget {
-  const HealthScreen({super.key});
+class HealthView extends StatelessWidget {
+  const HealthView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,9 @@ class HealthScreen extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: () async {},
+                    onPressed: () async {
+                      WeightHive.deleteAllWeight();
+                    },
                     child: const Text(
                       'Анализы',
                       style: TextStyle(color: Colors.white),
@@ -37,7 +40,9 @@ class HealthScreen extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/weight');
+                    },
                     child: const Text(
                       'Вес',
                       style: TextStyle(color: Colors.white),
