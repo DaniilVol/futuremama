@@ -20,7 +20,7 @@ class FightBloc extends Bloc<FightEvent, FightState> {
   bool _isLoading = false;
   late int index;
   DateTime? startTime;
-  late Timer _timer;
+  late Timer? _timer = null;
   Duration elapsedTime = const Duration(seconds: 0);
 
   bool get isLoading {
@@ -46,7 +46,7 @@ class FightBloc extends Bloc<FightEvent, FightState> {
 
   Future<void> _onEndFight(
       EndFightEvent event, Emitter<FightState> emit) async {
-    _timer.cancel();
+    _timer?.cancel();
     List<FightModel> fightResults = await FightHive.loadResults();
     final currentTime = DateTime.now();
     final duration = currentTime.difference(startTime!);
@@ -82,7 +82,9 @@ class FightBloc extends Bloc<FightEvent, FightState> {
 
   @override
   Future<void> close() {
-    _timer.cancel();
+    if (_timer != null && _timer!.isActive) {
+      _timer?.cancel();
+    }
     return super.close();
   }
 }

@@ -5,13 +5,13 @@ class WeightHive {
   static Future<List<WeightModel>> loadWeight() async {
     final box = await Hive.openBox<WeightModel>('weight_results');
     final List<WeightModel> savedResults = box.values.toList();
+    await box.close();
     return savedResults;
   }
 
   static Future<void> addWeight(WeightModel weight) async {
     final box = await Hive.openBox<WeightModel>('weight_results');
     await box.add(weight);
-    print(weight);
     await box.close();
   }
 
@@ -26,7 +26,7 @@ class WeightHive {
 
   static Future<void> deleteAllWeight() async {
     final box = await Hive.openBox('weight_results');
-    box.clear();
-    box.close();
+    await box.clear();
+    await box.close();
   }
 }

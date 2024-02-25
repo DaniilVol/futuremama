@@ -6,8 +6,8 @@ import 'package:futuremama/bloc/counter/state.dart';
 import 'package:futuremama/model/fight_model.dart';
 import 'package:intl/intl.dart';
 
-class CounterView extends StatelessWidget {
-  const CounterView({Key? key}) : super(key: key);
+class FightView extends StatelessWidget {
+  const FightView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +163,7 @@ class CounterView extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(100.0),
+            padding: const EdgeInsets.all(80.0),
             child: Text(
               text,
               style: const TextStyle(
