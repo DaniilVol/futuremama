@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:futuremama/model/name_model.dart';
-import 'package:futuremama/services/name_hive.dart';
+import 'package:futuremama/services/hive/name_hive.dart';
 import 'package:http/http.dart' as http;
 
 class NameApi {

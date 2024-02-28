@@ -15,7 +15,6 @@ class HomeView extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data != true) {
-            print('true: ${snapshot.hasData}');
             // Если "dateFirstDayLastMKey" пустой, показать AlertDialog
             return const BottomNavigation();
           } else {
@@ -48,7 +47,7 @@ class HomeView extends StatelessWidget {
                         Navigator.pushReplacementNamed(
                             context, '/bottomnavigation');
                       },
-                      child: Text("Сохранить"),
+                      child: const Text("Сохранить"),
                     ),
                   ],
                 ),

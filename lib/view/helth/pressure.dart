@@ -14,65 +14,65 @@ class LineChartWidget extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: LineChart(
           LineChartData(
-            titlesData: FlTitlesData(show: true),
-            gridData: FlGridData(show: false),
+            titlesData: const FlTitlesData(show: true),
+            gridData: const FlGridData(show: false),
             borderData: FlBorderData(
               show: true,
               border: Border.all(color: const Color(0xff37434d), width: 1),
             ),
             minX: 0,
-            maxX: 45, // Количество точек по оси X
+            maxX: 8, // Количество точек по оси X
             minY: 45,
             maxY: 100, // Максимальное значение на оси Y
             lineBarsData: [
               LineChartBarData(
                 spots: [
-                  FlSpot(0, 55), // (X, Y) для первой точки первой линии
-                  FlSpot(1, 95),
-                  FlSpot(3, 80),
-                  FlSpot(3, 85),
-                  FlSpot(4, 80),
-                  FlSpot(5, 80),
-                  FlSpot(6, 80),
-                  FlSpot(7, 50),
-                  FlSpot(8, 80),
-                  FlSpot(9, 80),
-                  FlSpot(10, 60),
-                  FlSpot(11, 65),
-                  FlSpot(17, 69),
-                  FlSpot(25, 73),
-                  FlSpot(32, 76),
-                  FlSpot(38, 78),
-                  FlSpot(40, 80),
+                  const FlSpot(0, 55), // (X, Y) для первой точки первой линии
+                  const FlSpot(1, 95),
+                  const FlSpot(3, 80),
+                  const FlSpot(3, 85),
+                  const FlSpot(4, 80),
+                  const FlSpot(5, 80),
+                  const FlSpot(6, 80),
+                  // FlSpot(7, 50),
+                  // FlSpot(8, 80),
+                  // FlSpot(9, 80),
+                  // FlSpot(10, 60),
+                  // FlSpot(11, 65),
+                  // FlSpot(17, 69),
+                  // FlSpot(25, 73),
+                  // FlSpot(32, 76),
+                  // FlSpot(38, 78),
+                  // FlSpot(40, 80),
                   // Добавьте ваши точки для первой линии
                 ],
                 isCurved: true,
                 color: Colors.blue,
-                dotData: FlDotData(show: false),
+                dotData: const FlDotData(show: false),
               ),
               LineChartBarData(
                 spots: [
-                  FlSpot(0, 50), // (X, Y) для первой точки второй линии
-                  FlSpot(1, 60),
-                  FlSpot(2, 70),
-                  FlSpot(3, 85),
+                  const FlSpot(0, 50), // (X, Y) для первой точки второй линии
+                  const FlSpot(1, 60),
+                  const FlSpot(2, 70),
+                  const FlSpot(3, 85),
                   // Добавьте ваши точки для второй линии
                 ],
                 isCurved: true,
                 color: Colors.green,
-                dotData: FlDotData(show: false),
+                dotData: const FlDotData(show: false),
               ),
               LineChartBarData(
                 spots: [
-                  FlSpot(0, 80), // (X, Y) для первой точки третьей линии
-                  FlSpot(1, 90),
-                  FlSpot(2, 100),
-                  FlSpot(3, 90),
+                  const FlSpot(0, 80), // (X, Y) для первой точки третьей линии
+                  const FlSpot(1, 90),
+                  const FlSpot(2, 100),
+                  const FlSpot(3, 90),
                   // Добавьте ваши точки для третьей линии
                 ],
                 isCurved: true,
                 color: Colors.red,
-                dotData: FlDotData(show: false),
+                dotData: const FlDotData(show: false),
               ),
             ],
           ),

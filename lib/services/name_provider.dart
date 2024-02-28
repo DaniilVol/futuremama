@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:futuremama/model/name_model.dart';
-import 'package:futuremama/services/name_api.dart';
-import 'package:futuremama/services/name_hive.dart';
+import 'package:futuremama/services/api/name_api.dart';
+import 'package:futuremama/services/hive/name_hive.dart';
 
 class NameProvider extends ChangeNotifier {
   List<NameModel> names = [];

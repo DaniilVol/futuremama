@@ -14,14 +14,16 @@ class NotesView extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.orange[300],
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/shoppingListView');
+                    },
                     child: const Text(
-                      'Анализы',
+                      'Список покупок',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -32,14 +34,14 @@ class NotesView extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: Colors.teal[300],
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
                   child: TextButton(
                     onPressed: () {},
                     child: const Text(
-                      'Вес',
+                      'Список дел',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:futuremama/bloc/counter/bloc.dart';
-import 'package:futuremama/bloc/counter/event.dart';
-import 'package:futuremama/bloc/counter/state.dart';
+import 'package:futuremama/bloc/fight/fight_bloc.dart';
+import 'package:futuremama/bloc/fight/fight_event.dart';
+import 'package:futuremama/bloc/fight/fight_state.dart';
 import 'package:futuremama/model/fight_model.dart';
 import 'package:intl/intl.dart';
 
@@ -47,7 +47,7 @@ class FightView extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: _buildInkWell('Закончилась', Colors.red, () {
+              child: _buttonFight('Закончилась', Colors.red, () {
                 context.read<FightBloc>().add(EndFightEvent());
               }),
             ),
@@ -86,7 +86,7 @@ class FightView extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: _buildInkWell(
+              child: _buttonFight(
                 'Схватка началась',
                 Colors.green,
                 () {
@@ -143,7 +143,7 @@ class FightView extends StatelessWidget {
     );
   }
 
-  Widget _buildInkWell(String text, Color color, VoidCallback onTap) {
+  Widget _buttonFight(String text, Color color, VoidCallback onTap) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: InkWell(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:futuremama/services/hive/shopping_list_hive.dart';
 import 'package:futuremama/services/sharedpreferences.dart';
-import 'package:futuremama/services/weight_hive.dart';
 
 class HealthView extends StatelessWidget {
   const HealthView({super.key});
@@ -62,7 +62,7 @@ class HealthView extends StatelessWidget {
                 child: Center(
                   child: TextButton(
                     onPressed: () {
-                      WeightHive.deleteAllWeight();
+                      ShoppingListHive.deleteAllData();
                     },
                     child: const Text(
                       'Давление',

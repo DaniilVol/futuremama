@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:futuremama/bloc/counter/event.dart';
-import 'package:futuremama/bloc/counter/state.dart';
+import 'package:futuremama/bloc/fight/fight_event.dart';
+import 'package:futuremama/bloc/fight/fight_state.dart';
 import 'package:futuremama/model/fight_model.dart';
-import 'package:futuremama/services/fight_hive.dart';
+import 'package:futuremama/services/hive/fight_hive.dart';
 
 class FightBloc extends Bloc<FightEvent, FightState> {
   FightBloc() : super(FightResultsState(results: [])) {

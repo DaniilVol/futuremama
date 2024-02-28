@@ -3,9 +3,10 @@ import 'package:futuremama/model/weight_model.dart';
 abstract class WeighEvent {}
 
 class AddWeightEvent extends WeighEvent {
-  final int result;
+  final int weight;
+  final int weeks;
 
-  AddWeightEvent({required this.result});
+  AddWeightEvent({required this.weight, required this.weeks});
 }
 
 class DeleteWeightEvent extends WeighEvent {
