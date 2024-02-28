@@ -6,7 +6,7 @@ import 'package:futuremama/view/helth/weight.dart';
 import 'package:futuremama/view/home_view.dart';
 import 'package:futuremama/view/name/name.dart';
 import 'package:futuremama/view/notes/notes.dart';
-import 'package:futuremama/view/notes/shopping_list_view.dart';
+import 'package:futuremama/view/notes/shopping_todo_view.dart';
 import 'package:provider/provider.dart';
 
 class FuturemamaApp extends StatelessWidget {
@@ -35,7 +35,7 @@ class FuturemamaApp extends StatelessWidget {
           '/counter': (context) => const FightView(),
           '/weight': (context) => const WeightView(),
           '/bottomnavigation': (context) => const BottomNavigation(),
-          '/shoppingListView': (context) => const ShoppingListView(),
+          '/shoppingListView': (context) => const ShoppingTodoView(),
         },
       ),
     );

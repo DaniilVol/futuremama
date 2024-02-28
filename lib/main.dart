@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:futuremama/model/fight_model.dart';
+import 'package:futuremama/model/list_todo_model.dart';
 import 'package:futuremama/model/name_model.dart';
 import 'package:futuremama/model/shopping_list_model.dart';
 import 'package:futuremama/model/weight_model.dart';
@@ -13,6 +14,7 @@ void main() async {
   Hive.registerAdapter<FightModel>(FightModelAdapter());
   Hive.registerAdapter<ShoppingListModel>(ShoppingListModelAdapter());
   Hive.registerAdapter<WeightModel>(WeightModelAdapter());
+  Hive.registerAdapter<Todo>(TodoAdapter());
   await Hive.openBox<NameModel>(NameHive.boxName);
 
   //await Hive.openBox<FightResult>('fight_results');
