@@ -15,7 +15,7 @@ class HomeView extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data != true) {
-            // Если "dateFirstDayLastMKey" пустой, показать AlertDialog
+            // Если "dateFirstDayLastMKey" пустой, показать AlertDialog для выбора даты начала беременности
             return const BottomNavigation();
           } else {
             DateTime selectedDate = DateTime.now();
@@ -107,7 +107,7 @@ class BottomNavigationState extends State<BottomNavigation> {
             label: 'Имена',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fitness_center),
+            icon: Icon(Icons.timer),
             label: 'Счетчик схваток',
           ),
         ],
@@ -115,71 +115,3 @@ class BottomNavigationState extends State<BottomNavigation> {
     );
   }
 }
-
-
-
-
-
-
-
-//   Future<void> _loadPreferences() async {
-//     final storedDate = await SharedPreferencesService.loadStartDate();
-
-//     if (storedDate == null) {
-//       _showDatePickerDialog();
-//     } else {
-//       const FuturemamaApp();
-//     }
-//   }
-
-//   Future<void> _showDatePickerDialog() async {
-//     DateTime selectedDate = DateTime.now();
-
-//     return showDialog(
-//       context: context,
-//       builder: (context) {
-//         return AlertDialog(
-//           title: const Text("Выберите дату начала беременности"),
-//           content: SizedBox(
-//             height: 200,
-//             child: Column(
-//               children: [
-//                 Expanded(
-//                   child: CalendarDatePicker(
-//                     initialDate: DateTime.now(),
-//                     firstDate: DateTime(2000),
-//                     lastDate: DateTime.now(),
-//                     onDateChanged: (date) {
-//                       selectedDate = date;
-//                     },
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           actions: [
-//             ElevatedButton(
-//               onPressed: () async {
-//                 await SharedPreferencesService.saveStartDate(selectedDate);
-//                 Navigator.of(context).pop();
-//               },
-//               child: Text("Сохранить"),
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Ваш виджет"),
-//       ),
-//       body: Center(
-//         child: Text("Ваш основной контент"),
-//       ),
-//     );
-//   }
-// }

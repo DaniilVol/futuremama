@@ -65,7 +65,7 @@ class _NeedTodoListViewState extends State<NeedTodoListView> {
                   },
                   child: ListTile(
                     title: Text(
-                      todo.task ?? '',
+                      todo.task,
                       style: TextStyle(
                         decoration:
                             todo.complete ? TextDecoration.lineThrough : null,
@@ -115,11 +115,11 @@ class _NeedTodoListViewState extends State<NeedTodoListView> {
             ),
             onChanged: (value) {
               setState(() {
-                task = value ?? '';
+                task = value;
               });
             },
             validator: (val) {
-              return (val?.trim()?.isEmpty ?? true)
+              return (val?.trim().isEmpty ?? true)
                   ? 'Сделать не может быть пустым'
                   : null;
             },
@@ -131,16 +131,16 @@ class _NeedTodoListViewState extends State<NeedTodoListView> {
               child: Row(
             children: [
               ElevatedButton(
-                  child: Text('Отменить'),
+                  child: const Text('Отменить'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   }),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               ElevatedButton(
-                child: Text('Добавить'),
                 onPressed: _validateAndSave,
+                child: const Text('Добавить'),
               ),
             ],
           )),

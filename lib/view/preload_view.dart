@@ -22,7 +22,7 @@ class PreloadView extends StatelessWidget {
   }
 
   Future<bool> _delayedFuture() async {
-    await Future.delayed(Duration(seconds: 7));
+    await Future.delayed(const Duration(seconds: 7));
     return true;
   }
 }
@@ -133,7 +133,7 @@ class CustomLoadingPainter extends CustomPainter {
     if (lineEndY <= height / 4) {
       canvas.drawArc(
         Rect.fromCircle(
-            center: Offset(width / 6.5, height / 3), radius: width / 4),
+            center: Offset(width / 6.5, height / 3), radius: width / 3.5),
         pi,
         value * 2 * pi,
         false,

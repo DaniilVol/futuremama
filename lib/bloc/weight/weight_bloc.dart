@@ -23,11 +23,13 @@ class WeightBloc extends Bloc<WeighEvent, WeightState> {
     await _onLoadWeight();
   }
 
+// загрузка из HIVE
   Future<void> _onLoadWeight() async {
     List<WeightModel> weightResults = await WeightHive.loadWeight();
     emit(WeightResultsState(results: weightResults));
   }
 
+// добавить вес
   Future<void> _onAddWeight(
       AddWeightEvent event, Emitter<WeightState> emit) async {
     final currentTime = DateTime.now();
@@ -40,6 +42,7 @@ class WeightBloc extends Bloc<WeighEvent, WeightState> {
     await _onLoadWeight();
   }
 
+// удалить вес
   Future<void> _onDeleteWeight(
       DeleteWeightEvent event, Emitter<WeightState> emit) async {
     await WeightHive.deleteWeight(event.result);
@@ -47,22 +50,24 @@ class WeightBloc extends Bloc<WeighEvent, WeightState> {
     await _onLoadWeight();
   }
 
+// высчитываем недели от даты начала беременности и записываем в _weeks для инициализации в textField
   Future<void> _onWeeksFromStartData() async {
     final currentTime = DateTime.now();
     final startDate = await SharedPreferencesService.loadStartDate();
     final differenceInDays =
         currentTime.difference(startDate ?? currentTime).inDays;
     _weeks = (differenceInDays / 7).ceil();
-
-    // return _weeks;
   }
 
+// get
   int get weeks => _weeks;
 
+// get
   Map<String, List<FlSpot>> get flSpotWeightAll {
     return _flSpotWeightAll;
   }
 
+// формируем список координат для построения графиков
   Future<void> _onLineChartWeight() async {
     List<WeightModel> weightResults = await WeightHive.loadWeight();
     double firstWeight;

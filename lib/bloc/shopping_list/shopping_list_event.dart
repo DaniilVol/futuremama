@@ -1,3 +1,14 @@
+
+//
+//  НЕ РЕАЛИЗОВАНО
+//
+
+
+
+
+
+
+
 // abstract class ShoppingListEvent {}
 
 // class LoadShoppingListEvent extends ShoppingListEvent {}

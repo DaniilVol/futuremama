@@ -11,7 +11,7 @@ class NameView extends StatefulWidget {
 }
 
 class _NameViewState extends State<NameView> {
-  late Box<NameModel> nameBox;
+  Box<NameModel>? nameBox;
   late String nameAlertDialog;
   String selectedGender = "Мальчик";
 
@@ -30,53 +30,55 @@ class _NameViewState extends State<NameView> {
   @override
   void dispose() async {
     super.dispose();
-    await nameBox.close();
+    await nameBox?.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: selectedGender == "Мальчик"
-                ? const Icon(
-                    Icons.boy,
-                    color: Color.fromARGB(255, 71, 160, 232),
-                  )
-                : const Icon(
-                    Icons.girl,
-                    color: Color.fromARGB(255, 230, 121, 236),
-                  ),
-            onPressed: () {
-              setState(() {
-                selectedGender =
-                    selectedGender == "Мальчик" ? "Девочка" : "Мальчик";
-              });
-            },
-          ),
-        ],
-        title: selectedGender == "Мальчик"
-            ? const Text('Мужские имена')
-            : Text('Женские имена'),
-      ),
-      body: _buildNameList(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await showDialog(
-            context: context,
-            builder: (context) => _addName(),
+    return nameBox == null // проверка на null
+        ? const CircularProgressIndicator()
+        : Scaffold(
+            appBar: AppBar(
+              actions: [
+                IconButton(
+                  icon: selectedGender == "Мальчик"
+                      ? const Icon(
+                          Icons.boy,
+                          color: Color.fromARGB(255, 71, 160, 232),
+                        )
+                      : const Icon(
+                          Icons.girl,
+                          color: Color.fromARGB(255, 230, 121, 236),
+                        ),
+                  onPressed: () {
+                    setState(() {
+                      selectedGender =
+                          selectedGender == "Мальчик" ? "Девочка" : "Мальчик";
+                    });
+                  },
+                ),
+              ],
+              title: selectedGender == "Мальчик"
+                  ? const Text('Мужские имена')
+                  : const Text('Женские имена'),
+            ),
+            body: _buildNameList(),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                await showDialog(
+                  context: context,
+                  builder: (context) => _addName(),
+                );
+                loadData();
+              },
+              tooltip: 'Добавить',
+              child: const Icon(Icons.add),
+            ),
           );
-          loadData();
-        },
-        tooltip: 'Добавить',
-        child: const Icon(Icons.add),
-      ),
-    );
   }
 
   Widget _buildNameList() {
-    List<NameModel> data = nameBox.values.toList();
+    List<NameModel> data = nameBox!.values.toList(); // !!!!!
     List<NameModel> genderList =
         data.where((name) => name.gender == selectedGender).toList();
 
@@ -106,12 +108,12 @@ class _NameViewState extends State<NameView> {
           ),
           key: UniqueKey(),
           onDismissed: (direction) async {
-            int nameCheck = nameBox.values
+            int nameCheck = nameBox!.values // !!!!!
                 .toList()
                 .indexWhere((element) => element.name == nameIndex.name);
 
             if (nameCheck != -1) {
-              await nameBox.deleteAt(nameCheck);
+              await nameBox!.deleteAt(nameCheck); // !!!!!
               loadData();
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('${nameIndex.name} - удалено')));
@@ -134,12 +136,12 @@ class _NameViewState extends State<NameView> {
                 nameIndex.favorite = !nameIndex.favorite;
               });
 
-              int nameCheck = nameBox.values
+              int nameCheck = nameBox!.values // !!!!!
                   .toList()
                   .indexWhere((element) => element.name == nameIndex.name);
 
               if (nameCheck != -1) {
-                await nameBox.putAt(nameCheck, nameIndex);
+                await nameBox!.putAt(nameCheck, nameIndex); // !!!!!
               }
             },
           ),
@@ -164,11 +166,11 @@ class _NameViewState extends State<NameView> {
             ),
             onChanged: (value) {
               setState(() {
-                nameAlertDialog = value ?? '';
+                nameAlertDialog = value;
               });
             },
             validator: (val) {
-              return (val?.trim()?.isEmpty ?? true)
+              return (val?.trim().isEmpty ?? true)
                   ? 'Имя не может быть пустым'
                   : null;
             },
@@ -180,16 +182,16 @@ class _NameViewState extends State<NameView> {
             child: Row(
               children: [
                 ElevatedButton(
-                    child: Text('Отменить'),
+                    child: const Text('Отменить'),
                     onPressed: () {
                       Navigator.of(context).pop();
                     }),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 ElevatedButton(
-                  child: Text('Добавить'),
                   onPressed: _validateAndSave,
+                  child: const Text('Добавить'),
                 ),
               ],
             ),
@@ -209,7 +211,7 @@ class _NameViewState extends State<NameView> {
       );
 
       try {
-        await nameBox.add(newName);
+        await nameBox!.add(newName); // !!!!!
       } catch (e) {}
 
       Navigator.of(context).pop();

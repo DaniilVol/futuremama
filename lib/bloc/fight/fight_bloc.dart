@@ -31,6 +31,7 @@ class FightBloc extends Bloc<FightEvent, FightState> {
     add(UpdateTimerEvent());
   }
 
+// старт таймера
   void _onStartFight(StartFightEvent event, Emitter<FightState> emit) {
     startTime = DateTime.now();
     elapsedTime = const Duration(seconds: 0);
@@ -38,12 +39,14 @@ class FightBloc extends Bloc<FightEvent, FightState> {
     emit(FightInProgressState(elapsedTime: elapsedTime));
   }
 
+// загрузка результатов из HIVE
   Future<void> _loadResultsFromHive() async {
     _isLoading = true;
     List<FightModel> fightResults = await FightHive.loadResults();
     emit(FightResultsState(results: fightResults));
   }
 
+// конец таймера
   Future<void> _onEndFight(
       EndFightEvent event, Emitter<FightState> emit) async {
     _timer?.cancel();
@@ -63,23 +66,27 @@ class FightBloc extends Bloc<FightEvent, FightState> {
     _loadResultsFromHive();
   }
 
+// обновления таймера
   void _onUpdateTimer(UpdateTimerEvent event, Emitter<FightState> emit) {
     elapsedTime = DateTime.now().difference(startTime!);
     emit(FightInProgressState(elapsedTime: elapsedTime));
   }
 
+// очистить результат Таймера
   Future<void> _onRemoveFight(
       RemoveFightEvent event, Emitter<FightState> emit) async {
     await FightHive.removeResult(event.result);
     await _loadResultsFromHive();
   }
 
+// очистить все
   Future<void> _onRemoveAllFight(
       RemoveAllFightEvent event, Emitter<FightState> emit) async {
     await FightHive.removeAllResults();
     await _loadResultsFromHive();
   }
 
+// при закрытии экрана закрываем таймер
   @override
   Future<void> close() {
     if (_timer != null && _timer!.isActive) {

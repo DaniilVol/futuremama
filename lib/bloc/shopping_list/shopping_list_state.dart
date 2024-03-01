@@ -1,3 +1,11 @@
+//
+//  НЕ РЕАЛИЗОВАНО
+//
+
+
+
+
+
 // abstract class ShoppingListState {}
 
 // class ResultShoppingListState extends ShoppingListState {

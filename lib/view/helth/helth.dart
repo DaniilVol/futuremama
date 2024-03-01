@@ -18,19 +18,21 @@ class HealthView extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 85, 189, 110),
+                  color: const Color.fromARGB(255, 85, 189, 110),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
                   child: TextButton(
                     onPressed: () async {
+// УДАЛЕНИЕ ВСЕХ ДАННЫХ ИЗ HIVE - окно АНАЛИЗЫ
+
                       SharedPreferencesService.deleteStartDate();
                       NameHive.clearData();
                       TodoListHive.clearAll();
                       WeightHive.deleteAllWeight();
                     },
                     child: const Text(
-                      'Анализы',
+                      '(Анализы) \n УДАЛЕНИЕ ВСЕХ ДАННЫХ ИЗ HIVE \n для тестирование',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -41,7 +43,7 @@ class HealthView extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 244, 193, 92),
+                  color: const Color.fromARGB(255, 244, 193, 92),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
@@ -61,7 +63,7 @@ class HealthView extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 86, 160, 216),
+                  color: const Color.fromARGB(255, 86, 160, 216),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(

@@ -8,6 +8,7 @@ class ShoppingListApi {
   // final String collection = 'shopping_list';
   // final String document = 'W2cW2vo9tjy4JbS3dg3J';
 
+// Получение данных для СПИСКА ПОКУПОК
   static Future<List<TodoListModel>> getDataShopping() async {
     const url =
         'https://firestore.googleapis.com/v1/projects/futuremama-app/databases/(default)/documents/shopping_list/W2cW2vo9tjy4JbS3dg3J?key=c8544b8eaa93bee4038cc05a34513386c183ca69';
@@ -24,7 +25,7 @@ class ShoppingListApi {
           results.addAll(values.asMap().entries.map((entry) {
             final int index = DateTime.now().millisecondsSinceEpoch;
             final String task = entry.value['stringValue'];
-            final String category = _getCategory(categoryKey);
+            final String category = categoryKey;
 
             return TodoListModel(
               complete: false,
@@ -38,20 +39,11 @@ class ShoppingListApi {
 
       return results;
     } else {
-      throw Exception('Failed to load data');
+      throw Exception('Ошибка загрузки данных API');
     }
   }
 
-  static String _getCategory(String key) {
-    if (key == 'transport') {
-      return 'Транспорт';
-    } else if (key == 'room') {
-      return 'Комната';
-    } else {
-      return key;
-    }
-  }
-
+// Получение данных для СПИСКА ДЕЛ
   static Future<List<TodoListModel>> getDataNeedTodo() async {
     const url =
         'https://firestore.googleapis.com/v1/projects/futuremama-app/databases/(default)/documents/need_todo_list/UQKxPhsY7XLBdwu1DHVZ?key=c8544b8eaa93bee4038cc05a34513386c183ca69';
@@ -75,7 +67,7 @@ class ShoppingListApi {
 
       return results;
     } else {
-      throw Exception('Failed to load data');
+      throw Exception('Ошибка загрузки данных API');
     }
   }
 }

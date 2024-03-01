@@ -31,11 +31,8 @@ class FightHive {
     await box.close();
   }
 
-  // КАК УДАЛИТЬ ЭЛЕМЕНТ ИЗ HIVE НЕ ПРИБЕГАЯ К МЕТОДУ ПОЛНОЙ ЕГО ОЧИСТКИ
-  // пытался найти и по хэшкоду и по ключам, находит, но не удалял
-
-  // static Future<void> removeResults(FightResult results) async {
-  //   final box = await Hive.openBox<FightResult>('fight_results');
+  // static Future<void> removeResults(FightModel results) async {
+  //   final box = await Hive.openBox<FightModel>('fight_results');
   // final int hashCode = results.hashCode;
   // await box.delete(hashCode);
   //   await box.close();

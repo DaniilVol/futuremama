@@ -46,10 +46,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
       if (!categorizedData.containsKey(todo.category)) {
         categorizedData[todo.category] = [];
       }
-
       categorizedData[todo.category]?.add(todo);
     }
-
     return categorizedData;
   }
 
@@ -146,7 +144,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                             },
                             child: ListTile(
                               title: Text(
-                                todo.task ?? '',
+                                todo.task,
                                 style: TextStyle(
                                   decoration: todo.complete
                                       ? TextDecoration.lineThrough
@@ -209,7 +207,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             ),
             onChanged: (value) {
               setState(() {
-                categoryAlertDialog = value ?? '';
+                categoryAlertDialog = value;
               });
             },
           ),
@@ -221,11 +219,11 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             ),
             onChanged: (value) {
               setState(() {
-                taskAlertDialog = value ?? '';
+                taskAlertDialog = value;
               });
             },
             validator: (val) {
-              return (val?.trim()?.isEmpty ?? true)
+              return (val?.trim().isEmpty ?? true)
                   ? 'Купить не может быть пустым'
                   : null;
             },
@@ -237,16 +235,16 @@ class _ShoppingListViewState extends State<ShoppingListView> {
               child: Row(
             children: [
               ElevatedButton(
-                  child: Text('Отменить'),
+                  child: const Text('Отменить'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   }),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               ElevatedButton(
-                child: Text('Добавить'),
                 onPressed: _validateAndSave,
+                child: const Text('Добавить'),
               ),
             ],
           )),
