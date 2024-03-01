@@ -47,7 +47,8 @@ class FightView extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: _buttonFight('Закончилась', Colors.red, () {
+              child: _buttonFight(
+                  'Закончилась', const Color.fromARGB(255, 225, 103, 101), () {
                 context.read<FightBloc>().add(EndFightEvent());
               }),
             ),
@@ -88,7 +89,7 @@ class FightView extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: _buttonFight(
                 'Схватка началась',
-                Colors.green,
+                const Color.fromARGB(255, 87, 180, 90),
                 () {
                   context.read<FightBloc>().add(StartFightEvent());
                 },

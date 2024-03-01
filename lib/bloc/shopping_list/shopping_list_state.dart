@@ -1,7 +1,8 @@
-abstract class ShoppingListState {}
+// abstract class ShoppingListState {}
 
-class ResultShoppingListState extends ShoppingListState {
-  final List<String> shoppingList;
+// class ResultShoppingListState extends ShoppingListState {
+//   final List<dynamic> room;
+//   final List<dynamic> transport;
 
-  ResultShoppingListState({required this.shoppingList});
-}
+//   ResultShoppingListState({required this.room, required this.transport});
+// }

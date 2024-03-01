@@ -20,7 +20,7 @@ class NotesView extends StatelessWidget {
                 child: Center(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/shoppingListView');
+                      Navigator.pushNamed(context, '/shoppinglist');
                     },
                     child: const Text(
                       'Список покупок',
@@ -39,7 +39,9 @@ class NotesView extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/needtodolist');
+                    },
                     child: const Text(
                       'Список дел',
                       style: TextStyle(color: Colors.white),

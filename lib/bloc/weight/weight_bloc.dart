@@ -31,10 +31,6 @@ class WeightBloc extends Bloc<WeighEvent, WeightState> {
   Future<void> _onAddWeight(
       AddWeightEvent event, Emitter<WeightState> emit) async {
     final currentTime = DateTime.now();
-    // final startDate = await SharedPreferencesService.loadStartDate() ??
-    //     currentTime; // проработать отсутствие стартовой даты
-    // final differenceInDays = currentTime.difference(startDate).inDays;
-    // final weeks = await _onWeeksFromStartData();
     final int weight = event.weight.toInt();
     final int weeksFromState = event.weeks.toInt();
     final results = WeightModel(
@@ -72,8 +68,6 @@ class WeightBloc extends Bloc<WeighEvent, WeightState> {
     double firstWeight;
     List<FlSpot> flSpotWeight;
 
-    // final firstWeight = weightResults.first.weight.toDouble() ?? 50;
-    //final lenghtWeightResults = weightResults.length;
     if (weightResults.isEmpty) {
       firstWeight = 50;
       flSpotWeight = [];

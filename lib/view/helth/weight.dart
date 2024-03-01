@@ -11,18 +11,18 @@ class WeightView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Вес'),
-      ),
-      body: BlocProvider(
-        create: (context) => WeightBloc(),
-        child:
-            BlocBuilder<WeightBloc, WeightState>(builder: (contextBloc, state) {
-          if (state is WeightResultsState) {
-            Map<String, List<FlSpot>> flSpotWeightAll =
-                contextBloc.watch<WeightBloc>().flSpotWeightAll;
-            return Column(
+    return BlocProvider(
+      create: (context) => WeightBloc(),
+      child:
+          BlocBuilder<WeightBloc, WeightState>(builder: (contextBloc, state) {
+        if (state is WeightResultsState) {
+          Map<String, List<FlSpot>> flSpotWeightAll =
+              contextBloc.watch<WeightBloc>().flSpotWeightAll;
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Вес'),
+            ),
+            body: Column(
               children: [
                 const Center(
                   child: Text('График'),
@@ -53,6 +53,10 @@ class WeightView extends StatelessWidget {
                                 contextBloc.read<WeightBloc>().add(
                                       DeleteWeightEvent(result: result),
                                     );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'Вес ${result.weight}кг - удален')));
                               },
                               background: Container(
                                 color: Colors.red,
@@ -76,74 +80,73 @@ class WeightView extends StatelessWidget {
                           },
                         ),
                       ),
-                _buttonAddWeight(contextBloc),
               ],
-            );
-          } else {
-            return const CircularProgressIndicator();
-          }
-        }),
-      ),
+            ),
+            floatingActionButton: FloatingActionButton(
+                tooltip: 'Добавить',
+                child: const Icon(Icons.add),
+                onPressed: () {
+                  showDialog(
+                    context: contextBloc, // передаем contextBloc
+                    builder: (context) {
+                      return _buttonAddWeight(contextBloc);
+                    },
+                  );
+                }),
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      }),
     );
   }
 
-  ElevatedButton _buttonAddWeight(BuildContext contextBloc) {
-    return ElevatedButton(
-      onPressed: () {
-        showDialog(
-          context: contextBloc, // передаем contextBloc
-          builder: (context) {
-            final TextEditingController weightController =
-                TextEditingController();
-            final TextEditingController weeksController = TextEditingController(
-                text: contextBloc.watch<WeightBloc>().weeks.toString());
-            return AlertDialog(
-              title: const Text('Добавление веса'),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Ваша неделя:'),
-                  TextField(
-                    controller: weeksController,
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 16.0),
-                  const Text('Введите ваш вес:'),
-                  TextField(
-                    controller: weightController,
-                    keyboardType: TextInputType.number,
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    weightController.clear();
-                  },
-                  child: const Text('Отмена'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    int enteredWeeks = int.tryParse(weeksController.text) ?? 0;
-                    int enteredWeight =
-                        int.tryParse(weightController.text) ?? 0;
-                    contextBloc.read<WeightBloc>().add(
-                          AddWeightEvent(
-                              weight: enteredWeight, weeks: enteredWeeks),
-                        );
-                    Navigator.pop(context);
-                    weightController.clear();
-                    weeksController.clear();
-                  },
-                  child: const Text('Добавить'),
-                ),
-              ],
-            );
+  Widget _buttonAddWeight(BuildContext contextBloc) {
+    final TextEditingController weightController = TextEditingController();
+    final TextEditingController weeksController = TextEditingController(
+        text: contextBloc.watch<WeightBloc>().weeks.toString());
+    return AlertDialog(
+      contentPadding: const EdgeInsets.all(20),
+      title: const Text('Добавление веса'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Ваша неделя:'),
+          TextField(
+            controller: weeksController,
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 16.0),
+          const Text('Введите ваш вес:'),
+          TextField(
+            controller: weightController,
+            keyboardType: TextInputType.number,
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(contextBloc);
+            weightController.clear();
           },
-        );
-      },
-      child: const Text('Добавить вес'),
+          child: const Text('Отмена'),
+        ),
+        TextButton(
+          onPressed: () {
+            int enteredWeeks = int.tryParse(weeksController.text) ?? 0;
+            int enteredWeight = int.tryParse(weightController.text) ?? 0;
+            contextBloc.read<WeightBloc>().add(
+                  AddWeightEvent(weight: enteredWeight, weeks: enteredWeeks),
+                );
+            Navigator.pop(contextBloc);
+            weightController.clear();
+            weeksController.clear();
+          },
+          child: const Text('Добавить'),
+        ),
+      ],
     );
   }
 
@@ -239,196 +242,3 @@ class WeightView extends StatelessWidget {
     );
   }
 }
-
-
-// class WeightChartWidget extends StatelessWidget {
-//   final List<double> weights1; // данные для первой линии
-//   final List<double> weights2; // данные для второй линии
-//   final List<double> weights3; // данные для третьей линии
-//   final List<DateTime> dates; // даты для оси Y
-
-//   WeightChartWidget({
-//     required this.weights1,
-//     required this.weights2,
-//     required this.weights3,
-//     required this.dates,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return LineChart(
-//       LineChartData(
-//         lineBarsData: [
-//           // Первая линия
-//           LineChartBarData(
-//             spots: List.generate(
-//               weights1.length,
-//               (index) => FlSpot(weights1[index],
-//                   dates[index].millisecondsSinceEpoch.toDouble()),
-//             ),
-//             isCurved: true,
-//             color: Colors.blue,
-//             dotData: FlDotData(show: false),
-//             belowBarData: BarAreaData(show: false),
-//           ),
-//           // Вторая линия
-//           LineChartBarData(
-//             spots: List.generate(
-//               weights2.length,
-//               (index) => FlSpot(weights2[index],
-//                   dates[index].millisecondsSinceEpoch.toDouble()),
-//             ),
-//             isCurved: true,
-//             color: Colors.red,
-//             dotData: FlDotData(show: false),
-//             belowBarData: BarAreaData(show: false),
-//           ),
-//           // Третья линия
-//           LineChartBarData(
-//             spots: List.generate(
-//               weights3.length,
-//               (index) => FlSpot(weights3[index],
-//                   dates[index].millisecondsSinceEpoch.toDouble()),
-//             ),
-//             isCurved: true,
-//             color: Colors.green,
-//             dotData: FlDotData(show: false),
-//             belowBarData: BarAreaData(show: false),
-//           ),
-//         ],
-//         titlesData: FlTitlesData(
-//             //leftTitles: SideTitles(showTitles: false),
-//             // bottomTitles: SideTitles(
-//             //   showTitles: true,
-//             //   reservedSize: 22,
-//             //   getTextStyles: (value) => const TextStyle(color: Colors.black, fontSize: 10),
-//             //   getTitles: (value) {
-//             //     // Здесь вы можете настроить метки для оси X, используя value
-//             //     return value.toInt().toString();
-//             //   },
-//             // ),
-//             ),
-//         borderData: FlBorderData(
-//           show: true,
-//           border: Border.all(color: const Color(0xff37434d), width: 1),
-//         ),
-//         gridData: FlGridData(show: false),
-//         //lineBarsData: [
-//         // Ваши линии здесь
-//         // ],
-//       ),
-//     );
-//   }
-// }
-
-// class WeightView extends StatelessWidget {
-//   const WeightView({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) => WeightBloc(),
-//       child: Scaffold(
-//         appBar: AppBar(
-//           title: const Text('Счетчик схваток'),
-//         ),
-//         body: Column(
-//           children: [
-//             Expanded(
-//               child: BlocBuilder<WeightBloc, WeightState>(
-//                 builder: (context, state) {
-//                   if (state is WeightResultsState) {
-//                     return ListView.builder(
-//                       itemCount: state.results.length,
-//                       itemBuilder: (context, index) {
-//                         final weight = state.results[index];
-//                         return Dismissible(
-//                           key: Key('$index'),
-//                           onDismissed: (direction) {
-//                             context.read<WeightBloc>().add(
-//                                   DeleteWeightEvent(result: weight),
-//                                 );
-//                           },
-//                           background: Container(
-//                             color: Colors.red,
-//                             child: Icon(Icons.delete, color: Colors.white),
-//                             alignment: Alignment.centerRight,
-//                             padding: EdgeInsets.only(right: 20.0),
-//                           ),
-//                           child: ListTile(
-//                             title: Text('Вес ${weight.weight}'),
-//                           ),
-//                         );
-//                       },
-//                     );
-//                   }
-//                   return Container(); // Возможно, здесь нужно показать заглушку или индикатор загрузки
-//                 },
-//               ),
-//             ),
-//             ElevatedButton(
-//               onPressed: () async {
-//                 final result = await showDialog(
-//                   context: context,
-//                   builder: (context) =>
-//                       AddWeightDialog(weightBloc: context.read<WeightBloc>()),
-//                 );
-
-//                 if (result != null) {
-//                   context.read<WeightBloc>().add(
-//                         AddWeightEvent(result: result),
-//                       );
-//                 }
-//               },
-//               child: Text('Добавить вес'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class AddWeightDialog extends StatefulWidget {
-//   final WeightBloc weightBloc;
-
-//   const AddWeightDialog({Key? key, required this.weightBloc}) : super(key: key);
-
-//   @override
-//   AddWeightDialogState createState() => AddWeightDialogState();
-// }
-
-// class AddWeightDialogState extends State<AddWeightDialog> {
-//   final TextEditingController _weightController = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       title: Text('Введите вес'),
-//       content: TextField(
-//         controller: _weightController,
-//         keyboardType: TextInputType.number,
-//       ),
-//       actions: [
-//         TextButton(
-//           onPressed: () {
-//             Navigator.of(context).pop();
-//           },
-//           child: Text('Отмена'),
-//         ),
-//         TextButton(
-//           onPressed: () {
-//             final weight = int.tryParse(_weightController.text);
-//             if (weight != null) {
-//               widget.weightBloc.add(AddWeightEvent(result: weight));
-//               Navigator.of(context).pop();
-//             } else {
-//               // Можно добавить обработку ошибки
-//             }
-//           },
-//           child: Text('Добавить'),
-//         ),
-//       ],
-//     );
-//   }
-// }

@@ -47,8 +47,8 @@ class FightModelAdapter extends TypeAdapter<FightModel> {
 
   @override
   FightModel read(BinaryReader reader) {
-    final currentTimeMillis = reader
-        .readInt(); // Используем readInt для записи времени в миллисекундах
+    final currentTimeMillis =
+        reader.readInt(); // readInt для записи времени в миллисекундах
     final durationMillis = reader.readInt();
     final timeSinceLastFightMillis = reader.readInt();
 

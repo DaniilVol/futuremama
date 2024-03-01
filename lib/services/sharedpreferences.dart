@@ -21,7 +21,6 @@ class SharedPreferencesService {
     }
 
     return null;
-    //DateTime.now();
   }
 
   static Future<void> deleteStartDate() async {

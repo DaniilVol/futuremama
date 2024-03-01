@@ -1,15 +1,24 @@
-abstract class ShoppingListEvent {}
+// abstract class ShoppingListEvent {}
 
-class LoadShoppingListEvent extends ShoppingListEvent {}
+// class LoadShoppingListEvent extends ShoppingListEvent {}
 
-class DeleteShoppingListEvent extends ShoppingListEvent {
-  final String string;
+// class DeleteShoppingListEvent extends ShoppingListEvent {
+//   final String string;
 
-  DeleteShoppingListEvent({required this.string});
-}
+//   DeleteShoppingListEvent({required this.string});
+// }
 
-class AddShoppingListEvent extends ShoppingListEvent {
-  final String string;
+// class IsCheckShoppingListEvent extends ShoppingListEvent {
+//   final String category;
+//   final int index;
+//   final bool isChecked;
 
-  AddShoppingListEvent({required this.string});
-}
+//   IsCheckShoppingListEvent(
+//       {required this.category, required this.index, required this.isChecked});
+// }
+
+// class AddShoppingListEvent extends ShoppingListEvent {
+//   final String string;
+
+//   AddShoppingListEvent({required this.string});
+// }

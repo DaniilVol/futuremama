@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:futuremama/services/hive/shopping_list_hive.dart';
+import 'package:futuremama/services/hive/name_hive.dart';
+import 'package:futuremama/services/hive/todo_list_hive.dart';
+import 'package:futuremama/services/hive/weight_hive.dart';
 import 'package:futuremama/services/sharedpreferences.dart';
 
 class HealthView extends StatelessWidget {
@@ -16,13 +18,16 @@ class HealthView extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Color.fromARGB(255, 85, 189, 110),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
                   child: TextButton(
                     onPressed: () async {
                       SharedPreferencesService.deleteStartDate();
+                      NameHive.clearData();
+                      TodoListHive.clearAll();
+                      WeightHive.deleteAllWeight();
                     },
                     child: const Text(
                       'Анализы',
@@ -36,7 +41,7 @@ class HealthView extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: Color.fromARGB(255, 244, 193, 92),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
@@ -56,14 +61,12 @@ class HealthView extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.orange,
+                  color: Color.fromARGB(255, 86, 160, 216),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: () {
-                      ShoppingListHive.deleteAllData();
-                    },
+                    onPressed: () {},
                     child: const Text(
                       'Давление',
                       style: TextStyle(color: Colors.white),
